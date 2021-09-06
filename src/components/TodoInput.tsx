@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  GestureResponderEvent,
-  NativeSyntheticEvent, 
   StyleSheet, 
   TextInput, 
-  TextInputSubmitEditingEventData, 
   TouchableOpacity, 
   View 
 } from 'react-native';
@@ -17,7 +14,7 @@ interface TodoInputProps {
 export function TodoInput({ addTask }: TodoInputProps) {
   const [task, setTask] = useState('');
 
-  function handleAddNewTask(e: NativeSyntheticEvent<TextInputSubmitEditingEventData> | GestureResponderEvent) {
+  function handleAddNewTask() {
     //TODO - Call addTask if task not empty and clean input value 
 
     // Validating task if not empty or if not string.
