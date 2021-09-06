@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { 
+  GestureResponderEvent,
+  NativeSyntheticEvent, 
+  StyleSheet, 
+  TextInput, 
+  TextInputSubmitEditingEventData, 
+  TouchableOpacity, 
+  View 
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 interface TodoInputProps {
@@ -7,10 +15,21 @@ interface TodoInputProps {
 }
 
 export function TodoInput({ addTask }: TodoInputProps) {
-  // const [task, setTask] = useState('');
+  const [task, setTask] = useState('');
 
-  function handleAddNewTask() {
+  function handleAddNewTask(e: NativeSyntheticEvent<TextInputSubmitEditingEventData> | GestureResponderEvent) {
     //TODO - Call addTask if task not empty and clean input value 
+
+    // Validating task if not empty or if not string.
+    // String.prototype.trim() was used to check if task are filled by spaces.
+    if (!task.trim() || typeof task !== 'string') return;
+
+    addTask(task);
+    setTask('');
+  }
+
+  function handleChangeTextInput(text: string) {
+    setTask(text);
   }
 
   return (
@@ -21,12 +40,16 @@ export function TodoInput({ addTask }: TodoInputProps) {
         placeholderTextColor="#B2B2B2"
         returnKeyType="send"
         selectionColor="#666666"
+        value={task}
+        onSubmitEditing={handleAddNewTask}
+        onChangeText={handleChangeTextInput}
         //TODO - use value, onChangeText and onSubmitEditing props
       />
       <TouchableOpacity
         testID="add-new-task-button"
         activeOpacity={0.7}
         style={styles.addButton}
+        onPress={handleAddNewTask}
         //TODO - onPress prop
       >
         <Icon name="chevron-right" size={24} color="#B2B2B2" />
